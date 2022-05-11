@@ -1,0 +1,9 @@
+*{
+    box-sizing: border-box;
+    --background-color: #121212;
+    --main-color: #1F1F1F;
+    --secondary-color: #28A428;
+
+    --main-font: 'Truculenta';
+    --secondary-font: 'Permanent Marker';
+}
