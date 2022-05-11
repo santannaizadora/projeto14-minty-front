@@ -40,7 +40,7 @@ export default function LoginForm(props) {
                     email: '',
                     password: ''
                 });
-                navigate('/home');
+                navigate('/store');
             }
             )
             .catch(err => {
