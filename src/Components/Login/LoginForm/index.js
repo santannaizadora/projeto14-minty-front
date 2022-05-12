@@ -4,14 +4,10 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { toast } from 'react-toastify';
 import { ThreeDots } from "react-loader-spinner";
-
 import axios from 'axios';
 import styled from 'styled-components';
-
 import 'react-toastify/dist/ReactToastify.css';
-
 import TokenContext from '../../../contexts/TokenContext';
-
 
 export default function LoginForm(props) {
     const { isSubmitting, setIsSubmitting, formData, setFormData } = props;
@@ -25,8 +21,6 @@ export default function LoginForm(props) {
             [e.target.name]: e.target.value
         });
     }
-
-    
 
     const navigate = useNavigate();
     const onSubmit = () => {
@@ -126,7 +120,6 @@ export default function LoginForm(props) {
     )
 }
 
-
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -137,8 +130,8 @@ const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 303px;
-    height: 45px;    
+    width:326px;
+    height: 46px;    
     background: #28A428;
     border-radius: 4.63636px;
     border: none;
@@ -149,8 +142,8 @@ const Button = styled.button`
     font-family: 'Truculenta', sans-serif;
 `
 const Input = styled.input`
-    width: 303px;
-    height: 45px;
+    width: 326px;
+    height: 58px;
     background:  ${props => !props.disabled ? '#FFFFFF' : '#F2F2F2'};
     border: 1px solid #D5D5D5;
     box-sizing: border-box;
@@ -159,6 +152,12 @@ const Input = styled.input`
     margin-bottom: 15px;
     font-size: 24px;
     font-family: 'Truculenta', sans-serif;
+
+    ::placeholder{
+        color: black;
+
+    }
+
 `
 const Error = styled.p`
     color: #FFF;
