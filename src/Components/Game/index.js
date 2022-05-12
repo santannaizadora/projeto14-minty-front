@@ -24,7 +24,6 @@ export default function Game() {
     useEffect(() => {
         axios.get(`http://localhost:5000/game/${id}`, config)
             .then((response) => {
-                console.log(response.data);
                 setGameInfo(response.data)
             })
             .catch((error) => {
@@ -32,16 +31,20 @@ export default function Game() {
             })
     }, [])
 
+    //TODO: ADICIONAR AO CARRINHO
+    function addCart() {
+        console.log("adicionado ao carrinho")
+    }
 
     return (
         <Container>
             <DivGame>
                 <h1>{title}</h1>
                 <div>
-                    <img src={thumbnail} />
+                    <img src={thumbnail} alt="Game thumbnail" />
                     <Price>R$ {formatPrice(price)} </Price>
                     <hr />
-                    <ButtonCart>Adicionar ao carrinho</ButtonCart>
+                    <ButtonCart onClick={addCart}>Adicionar ao carrinho</ButtonCart>
                     <hr />
                     <Description>
                         <p>{short_description}</p>
