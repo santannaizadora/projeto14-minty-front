@@ -126,10 +126,6 @@ const Form = styled.form`
         font-weight: 400;
         font-size: 24px;
 
-        ::placeholder{
-            color: black;
-
-        }
         
     }
 

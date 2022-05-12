@@ -26,7 +26,7 @@ export default function LoginForm(props) {
         });
     }
 
-    
+
 
     const navigate = useNavigate();
     const onSubmit = () => {
@@ -137,8 +137,8 @@ const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 303px;
-    height: 45px;    
+    width: 326px;
+    height: 46px;    
     background: #28A428;
     border-radius: 4.63636px;
     border: none;
@@ -149,16 +149,17 @@ const Button = styled.button`
     font-family: 'Truculenta', sans-serif;
 `
 const Input = styled.input`
-    width: 303px;
-    height: 45px;
+    width: 326px;
+    height: 58px;
     background:  ${props => !props.disabled ? '#FFFFFF' : '#F2F2F2'};
-    border: 1px solid #D5D5D5;
+    border: none;
     box-sizing: border-box;
     border-radius: 5px;
     padding: 0 10px;
     margin-bottom: 15px;
     font-size: 24px;
     font-family: 'Truculenta', sans-serif;
+    outline: none;
 `
 const Error = styled.p`
     color: #FFF;
