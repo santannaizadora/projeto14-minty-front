@@ -4,14 +4,10 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { toast } from 'react-toastify';
 import { ThreeDots } from "react-loader-spinner";
-
 import axios from 'axios';
 import styled from 'styled-components';
-
 import 'react-toastify/dist/ReactToastify.css';
-
 import TokenContext from '../../../contexts/TokenContext';
-
 
 export default function LoginForm(props) {
     const { isSubmitting, setIsSubmitting, formData, setFormData } = props;
@@ -25,8 +21,6 @@ export default function LoginForm(props) {
             [e.target.name]: e.target.value
         });
     }
-
-
 
     const navigate = useNavigate();
     const onSubmit = () => {
@@ -126,7 +120,6 @@ export default function LoginForm(props) {
     )
 }
 
-
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -137,6 +130,7 @@ const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: 326px;
     height: 46px;    
     background: #28A428;
@@ -160,6 +154,11 @@ const Input = styled.input`
     font-size: 24px;
     font-family: 'Truculenta', sans-serif;
     outline: none;
+
+    ::placeholder{
+        color: black;
+
+    }
 `
 const Error = styled.p`
     color: #FFF;
