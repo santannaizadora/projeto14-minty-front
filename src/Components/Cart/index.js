@@ -1,35 +1,87 @@
+import axios from "axios";
+import { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { InfinitySpin } from "react-loader-spinner";
 
+import TokenContext from "../../contexts/TokenContext";
+
+//TODO: React loader spinner para carregamento
 
 export default function Cart() {
-    return (
+
+    const { token } = useContext(TokenContext)
+    const navigate = useNavigate();
+    const [cart, setCart] = useState({})
+    const [refresh, setRefresh] = useState(false);
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/cart', config)
+            .then((response) => {
+                setCart(response.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [refresh])
+
+
+    function deleteGame(id) {
+        axios.delete(`http://localhost:5000/cart/${id}`, config)
+            .then((response) => {
+                console.log(response)
+                setRefresh(!refresh);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+
+    const newPrice = (price) => `${price}`.replace(".", ",");
+
+    const loading = <Loading><InfinitySpin color="grey" /></Loading>
+    const app = (
         <Container>
             <h1>Meu carrinho</h1>
             <DivCart>
                 <div>
-                    <Product>
-                        <Thumbnail src="https://www.freetogame.com/g/1/thumbnail.jpg" />
-                        <div>
-                            <Title>CRSED: F.O.A.D.</Title>
-                            <Price>R$ 25,45</Price>
-                        </div>
-                        <ion-icon name="close"></ion-icon>
-                    </Product>
+                    {cart.userCart?.map((item) => {
+                        const { title, thumbnail, price, _id } = item;
+                        return (
+                            <Product key={_id}>
+                                <Thumbnail src={thumbnail} />
+                                <div>
+                                    <Title>{title}</Title>
+                                    <Price>R$ {newPrice(price)}</Price>
+                                </div>
+                                <ion-icon name="close" onClick={() => deleteGame(_id)}></ion-icon>
+                            </Product>
+                        )
+                    })}
                 </div>
             </DivCart>
             <DivInfo>
                 <hr />
                 <Total>
                     <p>Subtotal</p>
-                    <p>R$ 80,45</p>
+                    <p>R$ {newPrice(cart.total)}</p>
                 </Total>
                 <hr />
                 <DivButton>
-                    <button>Finalizar carrinho</button>
+                    <button onClick={() => navigate("/checkout")}>Finalizar carrinho</button>
                 </DivButton>
             </DivInfo>
-        </Container>
+        </Container >
     )
+    return Object.keys.length > 0 ? app : loading;
+
 }
 
 const Container = styled.div`
@@ -37,7 +89,8 @@ const Container = styled.div`
     height: 100vh;
 
     background-color: var(--background-color);
-    
+
+
     padding: 67px 18px 0 10px;
     
     h1{ 
@@ -124,7 +177,7 @@ const DivInfo = styled.div`
     right: 0;
     bottom: 0;
 
-    background-color: var(--background-color)
+    background-color: var(--background-color);
 `
 
 
@@ -159,4 +212,14 @@ const DivButton = styled.div`
         
         margin-top: 15px;
     }
+`
+
+const Loading = styled.div`
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+
 `
