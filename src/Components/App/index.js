@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { createGlobalStyle } from 'styled-components';
 import { ToastContainer } from "react-toastify";
 import TokenContext from "../../contexts/TokenContext";
 import { useState } from "react";

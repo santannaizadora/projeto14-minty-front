@@ -36,6 +36,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: #121212;
 `
 
 const LogoText = styled.p`
