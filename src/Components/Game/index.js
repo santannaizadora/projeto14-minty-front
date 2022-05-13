@@ -2,8 +2,11 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+
 
 import TokenContext from "../../contexts/TokenContext";
+import toastConfig from "../../assets/toastify/toastConfig";
 
 export default function Game() {
     const { id } = useParams()
@@ -27,13 +30,20 @@ export default function Game() {
                 setGameInfo(response.data)
             })
             .catch((error) => {
+                toast.error(error.response.data, toastConfig);
                 console.log(error);
             })
     }, [])
 
-    //TODO: ADICIONAR AO CARRINHO
     function addCart() {
-        console.log("adicionado ao carrinho")
+        axios.post(`http://localhost:5000/cart/${id}`, null, config)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                toast.error(error.response.data, toastConfig);
+                console.log(error);
+            })
     }
 
     return (
