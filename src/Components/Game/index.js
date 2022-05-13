@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+
 
 import TokenContext from "../../contexts/TokenContext";
 
@@ -31,9 +33,24 @@ export default function Game() {
             })
     }, [])
 
-    //TODO: ADICIONAR AO CARRINHO
     function addCart() {
-        console.log("adicionado ao carrinho")
+        axios.post(`http://localhost:5000/cart/${id}`, null, config)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                toast.error(error.response.data, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    theme: "dark",
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                console.log(error);
+            })
     }
 
     return (
