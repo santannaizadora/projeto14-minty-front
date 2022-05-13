@@ -1,25 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
 
 export default function Login() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     return (
-            <Container>
-            <LogoText>Minty</LogoText>
+        <Container>
+            <LogoText>MINTY</LogoText>
             <LoginForm
                 key='loginForm'
-                isSubmitting={isSubmitting}
-                formData={formData}
-                setFormData={setFormData}
-                setIsSubmitting={setIsSubmitting}
             />
             <Logon>
                 <Link to="/signUp">
@@ -36,11 +27,11 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #121212;
+    background-color: var(--background-color);
 `
 
 const LogoText = styled.p`
-font-family: 'Permanent Marker', cursive;
+    font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 400;
     font-size: 68.982px;
@@ -52,6 +43,7 @@ font-family: 'Permanent Marker', cursive;
 `
 const Logon = styled.p`
     padding-top: 30px;
+    font-family: var(--main-font);
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
