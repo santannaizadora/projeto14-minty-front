@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 
 import TokenContext from "../../contexts/TokenContext";
+import toastConfig from "../../assets/toastify/toastConfig";
 
 export default function Game() {
     const { id } = useParams()
@@ -29,6 +30,7 @@ export default function Game() {
                 setGameInfo(response.data)
             })
             .catch((error) => {
+                toast.error(error.response.data, toastConfig);
                 console.log(error);
             })
     }, [])
@@ -39,16 +41,7 @@ export default function Game() {
                 console.log(response)
             })
             .catch((error) => {
-                toast.error(error.response.data, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    theme: "dark",
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                toast.error(error.response.data, toastConfig);
                 console.log(error);
             })
     }
