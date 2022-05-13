@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import Login from '../Login';
 import SignUp from "../SignUp"
+import Store from "../Store";
 import Game from "../Game";
 
 
