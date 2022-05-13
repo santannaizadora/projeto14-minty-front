@@ -6,15 +6,14 @@ import { InfinitySpin } from "react-loader-spinner";
 
 import TokenContext from "../../contexts/TokenContext";
 
-//TODO: React loader spinner para carregamento
-
 export default function Cart() {
 
-    const { token } = useContext(TokenContext)
     const navigate = useNavigate();
     const [cart, setCart] = useState({})
     const [refresh, setRefresh] = useState(false);
 
+
+    const { token } = useContext(TokenContext)
     const config = {
         headers: {
             "Authorization": `Bearer ${token}`
@@ -35,7 +34,6 @@ export default function Cart() {
     function deleteGame(id) {
         axios.delete(`http://localhost:5000/cart/${id}`, config)
             .then((response) => {
-                console.log(response)
                 setRefresh(!refresh);
             })
             .catch((error) => {
@@ -45,33 +43,40 @@ export default function Cart() {
 
 
     const newPrice = (price) => `${price}`.replace(".", ",");
-
     const loading = <Loading><InfinitySpin color="grey" /></Loading>
-    const app = (
+    const cartHTML = cart.userCart?.map((item) => {
+        const { title, thumbnail, price, _id } = item;
+        return (
+            <Product key={_id}>
+                <Thumbnail src={thumbnail} />
+                <div>
+                    <Title>{title}</Title>
+                    <Price>R$ {newPrice(price)}</Price>
+                </div>
+                <ion-icon name="close" onClick={() => deleteGame(_id)}></ion-icon>
+            </Product>
+        )
+    })
+
+    return (
         <Container>
             <h1>Meu carrinho</h1>
-            <DivCart>
-                <div>
-                    {cart.userCart?.map((item) => {
-                        const { title, thumbnail, price, _id } = item;
-                        return (
-                            <Product key={_id}>
-                                <Thumbnail src={thumbnail} />
-                                <div>
-                                    <Title>{title}</Title>
-                                    <Price>R$ {newPrice(price)}</Price>
-                                </div>
-                                <ion-icon name="close" onClick={() => deleteGame(_id)}></ion-icon>
-                            </Product>
-                        )
-                    })}
-                </div>
-            </DivCart>
+            {Object.keys.length > 0
+                ? <DivCart>
+                    <div>
+                        {cartHTML}
+                    </div>
+                </DivCart>
+                : loading
+            }
             <DivInfo>
                 <hr />
                 <Total>
                     <p>Subtotal</p>
-                    <p>R$ {newPrice(cart.total)}</p>
+                    {Object.keys.length > 0
+                        ? <p>R$ {newPrice(cart.total)}</p>
+                        : <p>R$ 0,00</p>
+                    }
                 </Total>
                 <hr />
                 <DivButton>
@@ -80,8 +85,6 @@ export default function Cart() {
             </DivInfo>
         </Container >
     )
-    return Object.keys.length > 0 ? app : loading;
-
 }
 
 const Container = styled.div`
@@ -184,7 +187,6 @@ const DivInfo = styled.div`
 const Total = styled.div` 
     font-weight: 700;
     color: white;
-
     display: flex;
     justify-content: space-between;
 
@@ -215,8 +217,7 @@ const DivButton = styled.div`
 `
 
 const Loading = styled.div`
-    width: 100vw;
-    height: 100vh;
+    height: 50vh;
     display: flex;
     justify-content: center;
     align-items: center;
