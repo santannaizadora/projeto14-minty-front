@@ -1,25 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
 
 export default function Login() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     return (
         <Container>
             <LogoText>MINTY</LogoText>
             <LoginForm
                 key='loginForm'
-                isSubmitting={isSubmitting}
-                formData={formData}
-                setFormData={setFormData}
-                setIsSubmitting={setIsSubmitting}
             />
             <Logon>
                 <Link to="/signUp">

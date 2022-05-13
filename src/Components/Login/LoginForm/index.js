@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
@@ -7,33 +7,28 @@ import { ThreeDots } from "react-loader-spinner";
 import axios from 'axios';
 import styled from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
+
 import TokenContext from '../../../contexts/TokenContext';
 
-export default function LoginForm(props) {
-    const { isSubmitting, setIsSubmitting, formData, setFormData } = props;
+export default function LoginForm() {
+
     const { setToken } = useContext(TokenContext);
     const { register, formState: { errors }, handleSubmit } = useForm({
         criteriaMode: "all"
     });
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const navigate = useNavigate();
-    const onSubmit = () => {
+
+    const onSubmit = (formData) => {
         setIsSubmitting(true);
         axios.post('http://localhost:5000/login', formData)
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 setToken(res.data.token);
                 setIsSubmitting(false);
-                setFormData({
-                    email: '',
-                    password: ''
-                });
                 navigate('/store');
             }
             )
@@ -51,63 +46,58 @@ export default function LoginForm(props) {
             }
             )
     }
+
+
+    const errorMessage = ({ messages }) =>
+        messages && Object.entries(messages).map(([type, message]) => (
+            <Error className='error-message' key={type}>{message}</Error>
+        ))
+
+    const emailInput = {
+        required: "O campo e-mail é obrigatório",
+        pattern: {
+            value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i,
+            message: "Insira um e-mail válido"
+        }
+    }
+
+    const passwordInput = {
+        required: "O campo senha é obrigatório",
+        minLength: {
+            value: 6,
+            message: "A senha deve ter no mínimo 6 caracteres"
+        }
+    }
+
+
     return (
         <>
             <Form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
                 <Input
-                    {...register("email", {
-                        required: "O campo e-mail é obrigatório",
-                        pattern: {
-                            value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i,
-                            message: "Insira um e-mail válido"
-                        }
-                    })}
-                    value={formData.email}
+                    {...register("email", emailInput)}
                     type="text"
                     placeholder="E-mail"
-                    onChange={handleChange}
                     disabled={isSubmitting}
                     autoComplete='off'
                 />
                 <ErrorMessage
                     errors={errors}
                     name="email"
-                    render={({ messages }) =>
-                        messages &&
-                        Object.entries(messages).map(([type, message]) => (
-                            <Error className='error-message' key={type}>{message}</Error>
-                        ))
-                    }
+                    render={errorMessage}
                 />
                 <Input
-                    {...register("password", {
-                        required: "O campo senha é obrigatório",
-                        minLength: {
-                            value: 6,
-                            message: "A senha deve ter no mínimo 6 caracteres"
-                        }
-                    })}
-                    value={formData.password}
+                    {...register("password", passwordInput)}
                     type="password"
                     placeholder="Senha"
-                    onChange={handleChange}
                     disabled={isSubmitting}
                     autoComplete='off'
                 />
                 <ErrorMessage
                     errors={errors}
                     name="password"
-                    render={({ messages }) =>
-                        messages &&
-                        Object.entries(messages).map(([type, message]) => (
-                            <Error className='error-message' key={type}>{message}</Error>
-                        ))
-                    }
+                    render={errorMessage}
                 />
-                <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                >
+                <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting
                         ?
                         <ThreeDots color="#FFF" height={50} width={50} />
@@ -140,7 +130,7 @@ const Button = styled.button`
     font-size: 25px;
     opacity: ${props => !props.disabled ? 1 : 0.5};
     margin-top: 25px;
-    font-family: 'Truculenta', sans-serif;
+    font-family: var(--main-font), sans-serif;
 `
 const Input = styled.input`
     width: 326px;
@@ -152,7 +142,7 @@ const Input = styled.input`
     padding: 0 10px;
     margin-bottom: 15px;
     font-size: 24px;
-    font-family: 'Truculenta', sans-serif;
+    font-family: var(--main-font), sans-serif;
     outline: none;
 
     ::placeholder{
