@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
@@ -10,30 +10,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import TokenContext from '../../../contexts/TokenContext';
 
 export default function LoginForm(props) {
-    const { isSubmitting, setIsSubmitting, formData, setFormData } = props;
+    // const { isSubmitting, setIsSubmitting } = props;
     const { setToken } = useContext(TokenContext);
     const { register, formState: { errors }, handleSubmit } = useForm({
         criteriaMode: "all"
     });
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const navigate = useNavigate();
-    const onSubmit = () => {
+    const onSubmit = (formData) => {
         setIsSubmitting(true);
         axios.post('http://localhost:5000/login', formData)
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 setToken(res.data.token);
                 setIsSubmitting(false);
-                setFormData({
-                    email: '',
-                    password: ''
-                });
                 navigate('/store');
             }
             )
@@ -62,10 +55,8 @@ export default function LoginForm(props) {
                             message: "Insira um e-mail válido"
                         }
                     })}
-                    value={formData.email}
                     type="text"
                     placeholder="E-mail"
-                    onChange={handleChange}
                     disabled={isSubmitting}
                     autoComplete='off'
                 />
@@ -87,10 +78,8 @@ export default function LoginForm(props) {
                             message: "A senha deve ter no mínimo 6 caracteres"
                         }
                     })}
-                    value={formData.password}
                     type="password"
                     placeholder="Senha"
-                    onChange={handleChange}
                     disabled={isSubmitting}
                     autoComplete='off'
                 />
