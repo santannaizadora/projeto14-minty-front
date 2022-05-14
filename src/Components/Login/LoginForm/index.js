@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
 
 import TokenContext from '../../../contexts/TokenContext';
+import toastConfig from "../../../assets/toastify/toastConfig";
 
 export default function LoginForm() {
 
@@ -33,15 +34,7 @@ export default function LoginForm() {
             }
             )
             .catch(err => {
-                toast.error(err.response.data, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                toast.error(err.response.data, toastConfig);
                 setIsSubmitting(false);
             }
             )
