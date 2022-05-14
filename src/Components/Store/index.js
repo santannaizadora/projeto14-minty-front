@@ -89,7 +89,7 @@ export default function Store() {
             <Game>
                 <img src={thumbnail} alt={title} />
                 <h3>{title}</h3>
-                <p>R$ {price.toString().replace(".", ",")}</p>
+                <p>R$ {price.toFixed(2).toString().replace(".", ",")}</p>
             </Game>
         )
     }
@@ -162,9 +162,9 @@ const Game = styled.div`
     p {
         font-size: 15px;
         font-family: var(--main-font);
-        padding-left: 10px;
         position: absolute;
         bottom: 10px;
+        right: 10px;
 
     }
 `
@@ -172,7 +172,7 @@ const GameGrid = styled.div`
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
-    height: 600px;
+    height: calc(100vh - 60px);
     flex-wrap: wrap;
     overflow-y: auto;
     padding-top: 70px;
@@ -186,10 +186,12 @@ const ButtonsContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     width: 250px;
-    margin-top: 15px;
+    margin: 15px 0;
+    position: fixed;
+    bottom: 0; 
 
     button {
-        background-color: #1F1F1F;
+        background-color: #2F2F2F;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -200,12 +202,8 @@ const ButtonsContainer = styled.div`
         outline: none;
         transition: all 0.2s ease-in-out;
 
-        &:hover {
-            background-color: #2F2F2F;
-        }
-
         &:disabled {
-            background-color: #2F2F2F;
+            background-color: #1F1F1F;
             cursor: not-allowed;
         }
     }
@@ -227,7 +225,7 @@ const Loading = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 600px;
+    height: calc(100vh - 60px);
     width: 100%;
     background-color: #121212;
     color: #fff;
