@@ -38,14 +38,15 @@ export default function Store() {
                 setCanRender(false)
                 setPage(pageNumberInt)
                 e.target.value = ''
-            } if (pageNumberInt > totalPages) {
+            } else if (pageNumberInt > totalPages && page!==totalPages) {
                 setCanRender(false)
                 setPage(totalPages)
                 e.target.value = ''
-            }
-            if (pageNumberInt < 1) {
+            } else if (pageNumberInt < 1 && page!==1) {
                 setCanRender(false)
                 setPage(1)
+                e.target.value = ''
+            } else {
                 e.target.value = ''
             }
         }
