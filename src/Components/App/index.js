@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import Login from '../Login';
 import SignUp from "../SignUp"
+import Store from "../Store";
 import Cart from "../Cart";
 import Game from "../Game";
 
@@ -24,9 +25,9 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/signUp" element={<SignUp />} />
+                    <Route path="/store" element={<Store />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/game/:id" element={<Game />} />
-
                 </Routes>
             </BrowserRouter>
         </TokenContext.Provider>
