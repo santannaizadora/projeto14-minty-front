@@ -4,6 +4,9 @@ import { ErrorMessage } from '@hookform/error-message';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+
+import toastConfig from '../../assets/toastify/toastConfig';
 
 export default function SignUp() {
     const { register, formState: { errors }, handleSubmit } = useForm({
@@ -24,6 +27,7 @@ export default function SignUp() {
                 })
                 .catch((error) => {
                     console.log(error);
+                    toast.error(error.response.data, toastConfig)
                     setDisabled(false);
                 })
             : console.log("Senhas devem ser iguais");
@@ -89,7 +93,7 @@ const DivSignUp = styled.div`
     background-color: #121212;
 
     h1{
-        font-family: 'Permanent Marker';
+        font-family: var(--secondary-font);
         font-size: 40px;
         color: #28A428;
         margin-bottom: 42px;
@@ -119,14 +123,16 @@ const Form = styled.form`
         background-color: white;
         outline: none;
         border: none;
-        padding-left: 20px;
+        padding:0 10px;
         
         color: black;
         font-style: normal;
         font-weight: 400;
         font-size: 24px;
 
-        
+        ::placeholder{
+            color: black;
+        }
     }
 
     button{
