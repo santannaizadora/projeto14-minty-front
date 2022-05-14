@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import TokenContext from "../../contexts/TokenContext";
+import { ThreeDots } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 export default function Store() {
     const { token } = useContext(TokenContext);
@@ -33,7 +34,6 @@ export default function Store() {
         if (e.key === 'Enter') {
             let pageNumber = e.target.value;
             let pageNumberInt = parseInt(pageNumber);
-            console.log(typeof pageNumberInt)
             if (pageNumberInt > 0 && pageNumberInt <= totalPages) {
                 setCanRender(false)
                 setPage(pageNumberInt)
@@ -51,10 +51,20 @@ export default function Store() {
         }
     }
 
+    const handlePageClick = (e) => {
+        const gameContainer = document.getElementById('game-container');
+        gameContainer.scrollTo(0, 0);
+        setCanRender(false)
+    }
+
+
     const PageButtons = () => {
         return (
-            <div>
-                <button onClick={() => setPage(page - 1)} disabled={page === 1}>Anterior</button>
+            <ButtonsContainer>
+                <button onClick={() => {
+                    handlePageClick()
+                    setPage(page - 1)
+                }} disabled={page === 1}>Anterior</button>
                 <input
                     type="number"
                     placeholder={page}
@@ -62,41 +72,53 @@ export default function Store() {
                     max={totalPages}
                     onKeyDown={handlePageChange}
                 />
-                <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>Próxima</button>
-            </div>
+                <button onClick={() => {
+                    handlePageClick()
+                    setPage(page + 1)
+                }
+
+                } disabled={page === totalPages}>Próxima</button>
+            </ButtonsContainer>
         )
     }
 
     const GameContainer = (props) => {
-        console.log(props)
-        const { key, title, price, thumbnail } = props;
+        const { title, price, thumbnail } = props;
         return (
-            <GameContainer key={key}>
+            <Game>
                 <img src={thumbnail} alt={title} />
                 <h3>{title}</h3>
-                <p>{price}</p>
-            </GameContainer>
+                <p>R$ {price.toString().replace(".", ",")}</p>
+            </Game>
         )
     }
 
+    console.log(gameInfo)
+
     return (
         <Container>
-            <h1>Store</h1>
-            <PageButtons />
             {
-                canRender
-                &&
-                gameInfo.map((game) => {
-                    return (
-                    <GameContainer
-                        key={game._id}
-                        title={game.title}
-                        price={game.price}
-                        thumbnail={game.thumbnail}
-                    />
-                    )
-                })
-            }
+                canRender ?
+                    <GameGrid id="game-container">
+                        {
+                            gameInfo.map((game) => {
+                                return (
+                                    <Link to={`/game/${game._id}`} key={game.id}>
+                                    <GameContainer 
+                                        title={game.title}
+                                        price={game.price}
+                                        thumbnail={game.thumbnail}
+                                    />
+                                    </Link>
+                                )
+                            })
+                        }
+                    </GameGrid>
+                    :
+                    <Loading>
+                        <ThreeDots color="#FFF" height={50} width={50} />
+                    </Loading>
+                }
             <PageButtons />
         </Container>
     );
@@ -109,10 +131,10 @@ const Container = styled.div`
     background-color: #121212;
     color: #fff;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 `;
 
-const GameContainer = styled.div`
+const Game = styled.div`
     display: flex;
     flex-direction: column;
     width: 170px;
@@ -120,8 +142,94 @@ const GameContainer = styled.div`
     background: #1F1F1F;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
+    margin-bottom: 15px;
+    position: relative;
+
+    img {
+        width: 160px;
+        align-self: center;
+        margin-top: 5px;
+    }
+
+    h3 {
+        font-size: 24px;
+        font-family: var(--main-font);
+        padding-top: 15px;
+        padding-left: 10px;
+    }
+
+    p {
+        font-size: 15px;
+        font-family: var(--main-font);
+        padding-left: 10px;
+        position: absolute;
+        bottom: 10px;
+
+    }
 `
-const gameImage = styled.img`
-    width: 150px;
-    height: 103px;
+const GameGrid = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    height: 600px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding-top: 70px;
+
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+`
+const ButtonsContainer = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    width: 250px;
+    margin-top: 15px;
+
+    button {
+        background-color: #1F1F1F;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 16px;
+        font-family: var(--main-font);
+        cursor: pointer;
+        outline: none;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: #2F2F2F;
+        }
+
+        &:disabled {
+            background-color: #2F2F2F;
+            cursor: not-allowed;
+        }
+    }
+
+    input {
+        width: 50px;
+        height: 30px;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 16px;
+        font-family: var(--main-font);
+        outline: none;
+        transition: all 0.2s ease-in-out;
+        text-align: center;
+    }
+`
+const Loading = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    width: 100%;
+    background-color: #121212;
+    color: #fff;
+    font-size: 30px;
+    font-family: var(--main-font);
 `

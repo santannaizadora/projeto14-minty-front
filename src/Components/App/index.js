@@ -25,9 +25,9 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/signUp" element={<SignUp />} />
+                    <Route path="/store" element={<Store />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/game/:id" element={<Game />} />
-
                 </Routes>
             </BrowserRouter>
         </TokenContext.Provider>
