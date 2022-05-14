@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { ThreeDots } from "react-loader-spinner";
 
 import toastConfig from '../../assets/toastify/toastConfig';
 
@@ -30,8 +31,8 @@ export default function SignUp() {
                     toast.error(error.response.data, toastConfig)
                     setDisabled(false);
                 })
-            : console.log("Senhas devem ser iguais");
-
+            : toast.warn("Senhas devem ser iguais", toastConfig);
+        setDisabled(false);
     }
 
 
@@ -75,7 +76,12 @@ export default function SignUp() {
                 <ErrorMessage errors={errors} name="password" render={showError} />
                 <input type="password" placeholder='Confirmação de senha' disabled={disabled} {...register("confirmPassword", passwordValidate)} />
                 <ErrorMessage errors={errors} name="confirmPassword" render={showError} />
-                <button disabled={disabled}>Cadastrar</button>
+                <Button disabled={disabled}>
+                    {disabled
+                        ? <ThreeDots color="#FFF" width={40} />
+                        : "Cadastrar"
+                    }
+                </Button>
                 <Link to="/"><p>Ja tenho conta? Fazer login!</p></Link>
             </Form>
         </DivSignUp>
@@ -111,9 +117,7 @@ const Form = styled.form`
     align-items: center;
 
     *{
-        margin-bottom: 18px;
         font-family: var(--main-font);
-
     }
 
     input{
@@ -125,6 +129,7 @@ const Form = styled.form`
         border: none;
         padding:0 10px;
         
+        margin-bottom: 18px;
         color: black;
         font-style: normal;
         font-weight: 400;
@@ -135,21 +140,6 @@ const Form = styled.form`
         }
     }
 
-    button{
-        width:326px;
-        height: 46px;
-        
-        background-color: var(--secondary-color);
-        border: none;
-        outline: none;
-        border-radius: 5px;
-
-        color: white;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-        
-    }
 
     p{
         color: white;
@@ -157,4 +147,25 @@ const Form = styled.form`
         font-weight: 400;
         font-size: 15px;
     }
+`
+const Button = styled.button` 
+    width:326px;
+    height: 46px;
+    
+    background-color: var(--secondary-color);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    opacity: ${props => !props.disabled ? 1 : 0.5};
+ 
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 18px;
+    
+    color: white;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
 `
