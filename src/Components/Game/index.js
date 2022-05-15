@@ -79,7 +79,7 @@ const Container = styled.div`
     padding: 89px 14px 25px 14px;
 
     *{
-        font-family: 'Truculenta';
+        font-family: var(--main-font);
     }
 `
 
@@ -133,8 +133,16 @@ const Price = styled.p`
 `
 
 const Description = styled.div`
+
+    height: 140px;
     font-size: 24px;
     line-height: 30px;
+
+    overflow: scroll;
+    ::-webkit-scrollbar {
+    width: 0px;
+}
+
 `
 
 const ButtonCart = styled.button`
