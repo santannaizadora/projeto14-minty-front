@@ -9,9 +9,9 @@ import Cart from "../Cart";
 import Game from "../Game";
 import Checkout from "../Checkout";
 import Toolbar from "../Toolbar";
+import User from "../User";
 import TokenContext from "../../contexts/TokenContext";
 import SearchContext from "../../contexts/SearchContext";
-
 
 export default function App() {
 
@@ -36,6 +36,7 @@ export default function App() {
                         <Route path="/game/:id" element={<Game />} />
                         <Route path="/search" element={<Toolbar />} />
                         <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/user" element={<User />} />
                     </Routes>
                 </BrowserRouter>
             </SearchContext.Provider>

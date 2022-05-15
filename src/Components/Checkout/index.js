@@ -100,7 +100,7 @@ export default function Checkout() {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 50px 15px 0 15px;
+    padding: 70px 15px 0 15px;
     background-color: #121212;
     color: #fff;
     width: 100%;
