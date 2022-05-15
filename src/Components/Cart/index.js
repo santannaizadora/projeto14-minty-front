@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { InfinitySpin } from "react-loader-spinner";
 
@@ -9,9 +9,9 @@ import TokenContext from "../../contexts/TokenContext";
 export default function Cart() {
 
     const navigate = useNavigate();
-    const [cart, setCart] = useState({})
+    const [cart, setCart] = useState({});
+    const [isLoading, setIsLoading] = useState(true)
     const [refresh, setRefresh] = useState(false);
-
 
     const { token } = useContext(TokenContext)
     const config = {
@@ -24,9 +24,11 @@ export default function Cart() {
         axios.get('http://localhost:5000/cart', config)
             .then((response) => {
                 setCart(response.data)
+                setIsLoading(false)
             })
             .catch((error) => {
                 console.log(error)
+                setIsLoading(false)
             })
     }, [refresh])
 
@@ -35,15 +37,16 @@ export default function Cart() {
         axios.delete(`http://localhost:5000/cart/${id}`, config)
             .then((response) => {
                 setRefresh(!refresh);
+                setIsLoading(true)
             })
             .catch((error) => {
                 console.log(error)
             })
     }
 
-
+    const isCartEmpty = cart?.userCart?.length <= 0 ? true : false;
     const newPrice = (price) => `${price}`.replace(".", ",");
-    const loading = <Loading><InfinitySpin color="grey" /></Loading>
+    const loading = <NotFound><InfinitySpin color="grey" /></NotFound>
     const cartHTML = cart.userCart?.map((item) => {
         const { title, thumbnail, price, _id } = item;
         return (
@@ -61,26 +64,35 @@ export default function Cart() {
     return (
         <Container>
             <h1>Meu carrinho</h1>
-            {Object.keys.length > 0
-                ? <DivCart>
+            {isLoading
+                ? loading
+                : <DivCart>
                     <div>
-                        {cartHTML}
+                        {isCartEmpty
+                            ?
+                            <>
+                                <NotFound> Seu carrinho está vazio
+                                    <br /><Link to="/store" >Clique aqui para ir para a loja</Link>
+                                </NotFound>
+
+                            </>
+                            : cartHTML
+                        }
                     </div>
                 </DivCart>
-                : loading
             }
             <DivInfo>
                 <hr />
                 <Total>
                     <p>Subtotal</p>
-                    {Object.keys.length > 0
-                        ? <p>R$ {newPrice(cart.total)}</p>
-                        : <p>R$ 0,00</p>
+                    {isCartEmpty
+                        ? <p>R$ 0,00</p>
+                        : <p>R$ {newPrice(cart.total)}</p>
                     }
                 </Total>
                 <hr />
                 <DivButton>
-                    <button onClick={() => navigate("/checkout")}>Finalizar carrinho</button>
+                    <button disabled={isCartEmpty} onClick={() => navigate("/checkout")}>Finalizar carrinho</button>
                 </DivButton>
             </DivInfo>
         </Container >
@@ -216,11 +228,20 @@ const DivButton = styled.div`
     }
 `
 
-const Loading = styled.div`
+const NotFound = styled.div`
     height: 50vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    text-align: center;
+    color:  #808080 ;
     background-color: var(--background-color);
+
+    a{  
+        color: var(--secondary-color);
+        text-decoration: none;
+    }
 
 `
