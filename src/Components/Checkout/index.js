@@ -76,7 +76,7 @@ export default function Checkout() {
             <h1>Finalizar carrinho</h1>
             <Info>
                 <h2>Carrinho:</h2>
-                <p>R$ {cart}</p>
+                <p>R$ {cart.toFixed(2).toString().replace('.', ',')}</p>
             </Info>
             <h2>Forma de pagamento:</h2>
             <Payment />
