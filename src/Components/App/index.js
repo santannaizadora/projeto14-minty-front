@@ -7,10 +7,10 @@ import SignUp from "../SignUp"
 import Store from "../Store";
 import Cart from "../Cart";
 import Game from "../Game";
+import Checkout from "../Checkout";
 import Toolbar from "../Toolbar";
 import TokenContext from "../../contexts/TokenContext";
 import SearchContext from "../../contexts/SearchContext";
-
 
 
 export default function App() {
@@ -35,6 +35,7 @@ export default function App() {
                         <Route path="/cart" element={<Cart />} />
                         <Route path="/game/:id" element={<Game />} />
                         <Route path="/search" element={<Toolbar />} />
+                        <Route path="/checkout" element={<Checkout />} />
                     </Routes>
                 </BrowserRouter>
             </SearchContext.Provider>
