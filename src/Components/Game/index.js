@@ -41,6 +41,7 @@ export default function Game() {
         axios.post(`http://localhost:5000/cart/${id}`, null, config)
             .then((response) => {
                 console.log(response)
+                toast.success("Jogo adicionado com sucesso", toastConfig);
             })
             .catch((error) => {
                 toast.error(error.response.data, toastConfig);
