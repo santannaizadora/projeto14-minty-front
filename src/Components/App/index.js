@@ -8,6 +8,7 @@ import SignUp from "../SignUp"
 import Store from "../Store";
 import Cart from "../Cart";
 import Game from "../Game";
+import Checkout from "../Checkout";
 
 
 
@@ -28,6 +29,7 @@ export default function App() {
                     <Route path="/store" element={<Store />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/game/:id" element={<Game />} />
+                    <Route path="/checkout" element={<Checkout />} />
                 </Routes>
             </BrowserRouter>
         </TokenContext.Provider>
