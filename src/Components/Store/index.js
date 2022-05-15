@@ -38,11 +38,11 @@ export default function Store() {
                 setCanRender(false)
                 setPage(pageNumberInt)
                 e.target.value = ''
-            } else if (pageNumberInt > totalPages && page!==totalPages) {
+            } else if (pageNumberInt > totalPages && page !== totalPages) {
                 setCanRender(false)
                 setPage(totalPages)
                 e.target.value = ''
-            } else if (pageNumberInt < 1 && page!==1) {
+            } else if (pageNumberInt < 1 && page !== 1) {
                 setCanRender(false)
                 setPage(1)
                 e.target.value = ''
@@ -105,11 +105,11 @@ export default function Store() {
                             gameInfo.map((game) => {
                                 return (
                                     <Link to={`/game/${game._id}`} key={game.id}>
-                                    <GameContainer 
-                                        title={game.title}
-                                        price={game.price}
-                                        thumbnail={game.thumbnail}
-                                    />
+                                        <GameContainer
+                                            title={game.title}
+                                            price={game.price}
+                                            thumbnail={game.thumbnail}
+                                        />
                                     </Link>
                                 )
                             })
@@ -119,7 +119,7 @@ export default function Store() {
                     <Loading>
                         <ThreeDots color="#FFF" height={50} width={50} />
                     </Loading>
-                }
+            }
             <PageButtons />
         </Container>
     );
