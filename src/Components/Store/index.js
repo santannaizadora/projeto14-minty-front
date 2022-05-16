@@ -99,6 +99,7 @@ export default function Store() {
         })
     }
 
+
     const pageTitleNews = page === 1 ? <p className="title">Novidades</p> : <></>;
     const gameSlides = page === 1 ? <GameSwiper config={config} /> : <></>;
     const pageTitleGames = page === 1 ? <p className="title">Jogos</p> : <></>;
@@ -115,6 +116,7 @@ export default function Store() {
                 : <Loading>
                     <ThreeDots color="#FFF" height={50} width={50} />
                 </Loading>
+
             }
             <PageButtons />
         </Container>
