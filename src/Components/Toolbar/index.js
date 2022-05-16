@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ export default function Toolbar() {
     const { refresh, setRefresh } = useContext(SearchContext);
 
     const [search, setSearch] = useState("");
+    const [badgeNumber, setBadgeNumber] = useState(0)
     const navigate = useNavigate()
 
     const { token } = useContext(TokenContext)
@@ -46,6 +47,17 @@ export default function Toolbar() {
         setSearch("");
     }
 
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}cart/number`, config)
+            .then((response) => {
+                setBadgeNumber(response.data.length)
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }, [refresh])
+
+
 
     const toolbar = (
         <DivToolbar>
@@ -56,6 +68,7 @@ export default function Toolbar() {
             </DivSearch>
             <DivCart>
                 <ion-icon name="cart" onClick={() => navigate("/cart")}></ion-icon>
+                <ion-badge className="cart-badge" color="danger">{badgeNumber}</ion-badge>
             </DivCart>
         </DivToolbar>
     )
@@ -105,6 +118,7 @@ const DivSearch = styled.form`
         font-size: 22px;
         color: var(--secondary-color);
         margin-right: 5px;
+
     }
     
     input{
@@ -131,10 +145,32 @@ const DivSearch = styled.form`
 `
 
 const DivCart = styled.div` 
-
- ion-icon{
+    position: relative;
+ 
+    ion-icon{
         font-size: 24px;
         color: var(--secondary-color);
-    }
 
+        
+    }
+    
+    ion-badge{
+        width: 15px;
+        height: 15px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+
+        font-family: var(--main-font);
+        font-weight: 700;
+        font-size: 13px;
+        color: white;
+        background-color: #ec5353;
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        border-radius: 100%;
+    }
 `

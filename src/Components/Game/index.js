@@ -13,7 +13,7 @@ export default function Game() {
     const { id } = useParams()
 
     const { token } = useContext(TokenContext);
-    const { refresh } = useContext(SearchContext);
+    const { refresh, setRefresh } = useContext(SearchContext);
 
     const [gameInfo, setGameInfo] = useState({});
     const { price, thumbnail, title, short_description } = gameInfo
@@ -42,6 +42,7 @@ export default function Game() {
             .then((response) => {
                 console.log(response)
                 toast.success("Jogo adicionado com sucesso", toastConfig);
+                setRefresh(!refresh)
             })
             .catch((error) => {
                 toast.error(error.response.data, toastConfig);

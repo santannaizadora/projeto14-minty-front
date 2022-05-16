@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { InfinitySpin } from "react-loader-spinner";
 
 import TokenContext from "../../contexts/TokenContext";
+import SearchContext from "../../contexts/SearchContext";
+
 
 export default function Cart() {
 
@@ -13,7 +15,8 @@ export default function Cart() {
     const [isLoading, setIsLoading] = useState(true)
     const [refresh, setRefresh] = useState(false);
 
-    const { token } = useContext(TokenContext)
+    const { token } = useContext(TokenContext);
+    const { refresh: refrashSearch, setRefresh: setRefrashSearch } = useContext(SearchContext);
     const config = {
         headers: {
             "Authorization": `Bearer ${token}`
@@ -38,6 +41,7 @@ export default function Cart() {
             .then((response) => {
                 setRefresh(!refresh);
                 setIsLoading(true)
+                setRefrashSearch(!refrashSearch)
             })
             .catch((error) => {
                 console.log(error)
