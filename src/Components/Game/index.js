@@ -44,7 +44,6 @@ export default function Game() {
     function addCart() {
         axios.post(`${process.env.REACT_APP_API_URL}cart/${id}`, null, config)
             .then((response) => {
-                console.log(response)
                 toast.success("Jogo adicionado com sucesso", toastConfig);
                 setRefresh(!refresh)
             })
