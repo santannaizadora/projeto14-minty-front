@@ -20,12 +20,11 @@ export default function LoginForm() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-
     const navigate = useNavigate();
 
     const onSubmit = (formData) => {
         setIsSubmitting(true);
-        axios.post('http://localhost:5000/login', formData)
+        axios.post(`${process.env.REACT_APP_API_URL}login`, formData)
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 setToken(res.data.token);

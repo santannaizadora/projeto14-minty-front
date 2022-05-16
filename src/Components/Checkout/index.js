@@ -18,7 +18,7 @@ export default function Checkout() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:5000/checkout', config)
+        axios.get(`${process.env.REACT_APP_API_URL}checkout`, config)
             .then((response) => {
                 setCart(parseFloat(response.data.total))
             })
@@ -58,7 +58,7 @@ export default function Checkout() {
         if (payment === '') {
             toast.error('Selecione um método de pagamento')
         } else {
-            axios.post('http://localhost:5000/checkout', { payment }, config)
+            axios.post(`${process.env.REACT_APP_API_URL}checkout`, { payment }, config)
                 .then((response) => {
                     toast.success('Compra realizada com sucesso')
                     navigate('/store')
