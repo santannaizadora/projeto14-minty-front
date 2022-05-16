@@ -4,6 +4,7 @@ import axios from "axios";
 import TokenContext from "../../contexts/TokenContext";
 import { ThreeDots } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import GameSwiper from "./GamesSwiper";
 
 export default function Store() {
     const { token } = useContext(TokenContext);
@@ -94,13 +95,14 @@ export default function Store() {
         )
     }
 
-    console.log(gameInfo)
 
     return (
         <Container>
             {
                 canRender ?
-                    <GameGrid id="game-container">
+                    <GameGrid id="game-container" >
+                        {page === 1 ? <p className="title">Novidades</p> : <></>}
+                        {page === 1 ? <GameSwiper /> : <></>}
                         {
                             gameInfo.map((game) => {
                                 return (
@@ -133,6 +135,15 @@ const Container = styled.div`
     color: #fff;
     width: 100%;
     min-height: 100vh;
+
+    .title{
+        width: 100%;
+        padding-left: 18px;
+        font-family: var(--main-font);
+        font-weight: 900;
+        font-size: 24px;
+        color: var(--secondary-color);
+    }
 `;
 
 const Game = styled.div`

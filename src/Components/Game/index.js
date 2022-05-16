@@ -6,14 +6,12 @@ import { toast } from "react-toastify";
 
 
 import TokenContext from "../../contexts/TokenContext";
-import SearchContext from "../../contexts/SearchContext";
 import toastConfig from "../../assets/toastify/toastConfig";
 
 export default function Game() {
     const { id } = useParams()
 
     const { token } = useContext(TokenContext);
-    const { refresh } = useContext(SearchContext);
 
     const [gameInfo, setGameInfo] = useState({});
     const { price, thumbnail, title, short_description } = gameInfo
@@ -35,13 +33,12 @@ export default function Game() {
                 toast.error(error.response.data, toastConfig);
                 console.log(error);
             })
-    }, [refresh])
+    }, [])
 
     function addCart() {
         axios.post(`http://localhost:5000/cart/${id}`, null, config)
             .then((response) => {
                 console.log(response)
-                toast.success("Jogo adicionado com sucesso", toastConfig);
             })
             .catch((error) => {
                 toast.error(error.response.data, toastConfig);
@@ -80,7 +77,7 @@ const Container = styled.div`
     padding: 89px 14px 25px 14px;
 
     *{
-        font-family: var(--main-font);
+        font-family: 'Truculenta';
     }
 `
 
@@ -134,16 +131,8 @@ const Price = styled.p`
 `
 
 const Description = styled.div`
-
-    height: 140px;
     font-size: 24px;
     line-height: 30px;
-
-    overflow: scroll;
-    ::-webkit-scrollbar {
-    width: 0px;
-}
-
 `
 
 const ButtonCart = styled.button`
