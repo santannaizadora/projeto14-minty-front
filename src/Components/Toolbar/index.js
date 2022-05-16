@@ -16,7 +16,7 @@ export default function Toolbar() {
     const [search, setSearch] = useState("");
     const navigate = useNavigate()
 
-    const { token } = useContext(TokenContext)
+    const { token, setToken } = useContext(TokenContext)
 
     const config = {
         headers: {
@@ -46,6 +46,11 @@ export default function Toolbar() {
         setSearch("");
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setToken("");
+        navigate("/");
+    }
 
     const toolbar = (
         <DivToolbar>
@@ -54,16 +59,39 @@ export default function Toolbar() {
                 <input placeholder="Pesquisar" type="text" value={search} required onChange={(e) => setSearch(e.target.value)} />
                 <button type="submit" ></button>
             </DivSearch>
-            <DivCart>
-                <ion-icon name="cart" onClick={() => navigate("/cart")}></ion-icon>
-            </DivCart>
-        </DivToolbar>
+            <div>
+                <DivCart>
+                    <ion-icon name="cart" onClick={() => navigate("/cart")}></ion-icon>
+                </DivCart>
+                <Menu>
+                    <ion-icon name="person" onClick={() => navigate("/user")}></ion-icon>
+                    <ion-icon name="log-out-outline"
+                        onClick={() => {
+                            window.confirm("Deseja realmente sair?") && handleLogout()
+                        }}></ion-icon>
+
+                </Menu>
+            </div>
+        </DivToolbar >
     )
 
     if (pathname === "/" || pathname === "/signUp") return null;
     else return toolbar;
 
 }
+
+const Menu = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    & ion-icon {
+        font-size: 22px;
+        color: var(--secondary-color);
+    }
+`
 
 const DivToolbar = styled.div` 
     width: 100vw;
@@ -86,7 +114,16 @@ const DivToolbar = styled.div`
         font-family: var(--main-font);
     }
 
-   
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        ion-icon{
+            margin-left: 10px;
+        }
+    }
+
 `
 
 const DivSearch = styled.form`
