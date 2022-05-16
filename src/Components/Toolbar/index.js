@@ -68,7 +68,9 @@ export default function Toolbar() {
             </DivSearch>
             <DivCart>
                 <ion-icon name="cart" onClick={() => navigate("/cart")}></ion-icon>
-                <ion-badge className="cart-badge" color="danger">{badgeNumber}</ion-badge>
+                {badgeNumber <= 0
+                    ? <></>
+                    : <ion-badge className="cart-badge" color="danger">{badgeNumber}</ion-badge>}
             </DivCart>
         </DivToolbar>
     )
