@@ -94,8 +94,6 @@ export default function Store() {
         )
     }
 
-    console.log(gameInfo)
-
     return (
         <Container>
             {
@@ -106,6 +104,7 @@ export default function Store() {
                                 return (
                                     <Link to={`/game/${game._id}`} key={game.id}>
                                         <GameContainer
+                                            key={game.id}
                                             title={game.title}
                                             price={game.price}
                                             thumbnail={game.thumbnail}

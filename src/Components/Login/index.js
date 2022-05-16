@@ -1,10 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
 
+import TokenContext from '../../contexts/TokenContext';
+
 export default function Login() {
+
+    const navigate = useNavigate();
+    const { token } = useContext(TokenContext);
+    
+    useEffect(() => {
+        token!=='' && navigate('/store');
+    }, []);
 
     return (
         <Container>
