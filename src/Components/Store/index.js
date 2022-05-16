@@ -19,7 +19,7 @@ export default function Store() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/store?page=${page}`, config)
+        axios.get(`${process.env.REACT_APP_API_URL}store?page=${page}`, config)
             .then((response) => {
                 setGameInfo(response.data.games)
                 setTotalPages(response.data.pageCount)
