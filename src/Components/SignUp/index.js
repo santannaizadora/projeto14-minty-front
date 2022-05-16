@@ -17,9 +17,9 @@ export default function SignUp() {
 
     const navigate = useNavigate();
     const { token } = useContext(TokenContext);
-    
+
     useEffect(() => {
-        token!=='' && navigate('/store');
+        token !== '' && navigate('/store');
     }, []);
 
     const [disabled, setDisabled] = useState(false)
@@ -30,7 +30,7 @@ export default function SignUp() {
         password === confirmPassword
             ? axios.post(`${process.env.REACT_APP_API_URL}signUp`, data)
                 .then((response) => {
-                    console.log(response.data);
+                    toast.success(response.data, toastConfig);
                     navigate("/");
                 })
                 .catch((error) => {
