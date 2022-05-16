@@ -73,17 +73,19 @@ export default function Toolbar() {
             </DivSearch>
             <div>
                 <DivCart>
-                    <ion-icon name="storefront" onClick={() => navigate("/store")} ></ion-icon>
+                    <ion-icon name="storefront" onClick={() => navigate("/user")}></ion-icon>
                     <ion-icon name="cart" onClick={() => navigate("/cart")}></ion-icon>
                     {badgeNumber <= 0
                         ? <></>
                         : <ion-badge className="cart-badge" color="danger">{badgeNumber}</ion-badge>}
+                </DivCart>
+                <Menu>
                     <ion-icon name="person" onClick={() => navigate("/user")}></ion-icon>
                     <ion-icon name="log-out-outline"
                         onClick={() => {
                             window.confirm("Deseja realmente sair?") && handleLogout()
                         }}></ion-icon>
-                </DivCart>
+                </Menu>
             </div>
         </DivToolbar >
     )
@@ -92,6 +94,19 @@ export default function Toolbar() {
     else return toolbar;
 
 }
+
+const Menu = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    & ion-icon {
+        font-size: 22px;
+        color: var(--secondary-color);
+    }
+`
 
 const DivToolbar = styled.div` 
     width: 100vw;
