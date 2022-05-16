@@ -2,13 +2,17 @@ import styled from "styled-components"
 import axios from "axios"
 import { useEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import TokenContext from "../../contexts/TokenContext"
 import { toast } from "react-toastify"
+
+import TokenContext from "../../contexts/TokenContext"
+import SearchContext from "../../contexts/SearchContext"
+
 
 export default function Checkout() {
     const [cart, setCart] = useState(0)
     const [payment, setPayment] = useState('')
-    console.log(payment)
+
+    const { refresh, setRefresh } = useContext(SearchContext);
 
     const { token } = useContext(TokenContext)
     const config = {
@@ -61,7 +65,8 @@ export default function Checkout() {
             axios.post(`${process.env.REACT_APP_API_URL}checkout`, { payment }, config)
                 .then((response) => {
                     toast.success('Compra realizada com sucesso')
-                    navigate('/store')
+                    navigate('/store');
+                    setRefresh(!refresh);
                 })
                 .catch((error) => {
                     toast.error(error.response.data)
