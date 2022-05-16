@@ -77,7 +77,6 @@ export default function Toolbar() {
                     {badgeNumber <= 0
                     ? <></>
                     : <ion-badge className="cart-badge" color="danger">{badgeNumber}</ion-badge>}
-            </DivCart>
                 </DivCart>
                 <Menu>
                     <ion-icon name="person" onClick={() => navigate("/user")}></ion-icon>
