@@ -20,7 +20,8 @@ export default function Store() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/store?page=${page}`, config)
+        // 
+        axios.get(`${process.env.REACT_APP_API_URL}store?page=${page}`, config)
             .then((response) => {
                 setGameInfo(response.data.games)
                 setTotalPages(response.data.pageCount)
@@ -84,43 +85,37 @@ export default function Store() {
         )
     }
 
-    const GameContainer = (props) => {
-        const { title, price, thumbnail } = props;
-        return (
-            <Game>
-                <img src={thumbnail} alt={title} />
-                <h3>{title}</h3>
-                <p>R$ {price.toFixed(2).toString().replace(".", ",")}</p>
-            </Game>
-        )
+    const GameContainer = () => {
+        return gameInfo.map((game) => {
+            const { title, price, thumbnail, _id } = game;
+            return (
+                <Link to={`/game/${_id}`} key={_id}>
+                    <Game>
+                        <img src={thumbnail} alt={title} />
+                        <h3>{title}</h3>
+                        <p>R$ {price.toFixed(2).toString().replace(".", ",")}</p>
+                    </Game>
+                </Link>
+            )
+        })
     }
 
+    const pageTitleNews = page === 1 ? <p className="title">Novidades</p> : <></>;
+    const gameSlides = page === 1 ? <GameSwiper config={config} /> : <></>;
+    const pageTitleGames = page === 1 ? <p className="title">Jogos</p> : <></>;
 
     return (
         <Container>
-            {
-                canRender ?
-                    <GameGrid id="game-container" >
-                        {page === 1 ? <p className="title">Novidades</p> : <></>}
-                        {page === 1 ? <GameSwiper /> : <></>}
-                        {
-                            gameInfo.map((game) => {
-                                return (
-                                    <Link to={`/game/${game._id}`} key={game.id}>
-                                        <GameContainer
-                                            title={game.title}
-                                            price={game.price}
-                                            thumbnail={game.thumbnail}
-                                        />
-                                    </Link>
-                                )
-                            })
-                        }
-                    </GameGrid>
-                    :
-                    <Loading>
-                        <ThreeDots color="#FFF" height={50} width={50} />
-                    </Loading>
+            {canRender
+                ? <GameGrid id="game-container" >
+                    {pageTitleNews}
+                    {gameSlides}
+                    {pageTitleGames}
+                    <GameContainer />
+                </GameGrid>
+                : <Loading>
+                    <ThreeDots color="#FFF" height={50} width={50} />
+                </Loading>
             }
             <PageButtons />
         </Container>
@@ -128,6 +123,7 @@ export default function Store() {
 }
 
 const Container = styled.div`
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,6 +131,7 @@ const Container = styled.div`
     color: #fff;
     width: 100%;
     min-height: 100vh;
+    z-index: 0;
 
     .title{
         width: 100%;
@@ -143,7 +140,10 @@ const Container = styled.div`
         font-weight: 900;
         font-size: 24px;
         color: var(--secondary-color);
+        margin-bottom: 9px
     }
+    
+ 
 `;
 
 const Game = styled.div`
@@ -178,6 +178,7 @@ const Game = styled.div`
         right: 10px;
 
     }
+    
 `
 const GameGrid = styled.div`
     display: flex;
@@ -191,6 +192,10 @@ const GameGrid = styled.div`
     a {
         text-decoration: none;
         color: #fff;
+    }
+
+    ::-webkit-scrollbar{
+        width: 0;
     }
 `
 const ButtonsContainer = styled.div`
