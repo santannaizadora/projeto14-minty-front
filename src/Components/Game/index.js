@@ -4,14 +4,16 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-
 import TokenContext from "../../contexts/TokenContext";
+import SearchContext from "../../contexts/SearchContext";
 import toastConfig from "../../assets/toastify/toastConfig";
 
 export default function Game() {
+
     const { id } = useParams()
 
     const { token } = useContext(TokenContext);
+    const { refresh } = useContext(SearchContext);
 
     const [gameInfo, setGameInfo] = useState({});
     const { price, thumbnail, title, short_description } = gameInfo
@@ -25,7 +27,7 @@ export default function Game() {
         return `${price}`.replace(".", ",")
     }
     useEffect(() => {
-        axios.get(`http://localhost:5000/game/${id}`, config)
+        axios.get(`${process.env.REACT_APP_API_URL}game/${id}`, config)
             .then((response) => {
                 setGameInfo(response.data)
             })
@@ -33,12 +35,13 @@ export default function Game() {
                 toast.error(error.response.data, toastConfig);
                 console.log(error);
             })
-    }, [])
+    }, [refresh])
 
     function addCart() {
-        axios.post(`http://localhost:5000/cart/${id}`, null, config)
+        axios.post(`${process.env.REACT_APP_API_URL}cart/${id}`, null, config)
             .then((response) => {
                 console.log(response)
+                toast.success("Jogo adicionado com sucesso", toastConfig);
             })
             .catch((error) => {
                 toast.error(error.response.data, toastConfig);
@@ -69,15 +72,12 @@ const Container = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: var(--background-color);
-
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     padding: 89px 14px 25px 14px;
-
     *{
-        font-family: 'Truculenta';
+        font-family: var(--main-font);
     }
 `
 
@@ -96,12 +96,10 @@ const DivGame = styled.div`
         color: white;
         margin-bottom: 14px;
     }
-
     div{
         display: flex;
         flex-direction: column;
         align-items: center;
-
         hr{
             width: 100%;
             border-color: #808080;
@@ -109,20 +107,17 @@ const DivGame = styled.div`
             margin-bottom: 14px;
         }
     }
-
     img{
         width: 321px;
         height: 197px;
         margin-bottom: 14px;
         border-radius: 4px;
     }
-
     p{
         color: white;
         font-style: normal;
         font-weight: 400;   
     }
-
 `
 
 const Price = styled.p`
@@ -131,8 +126,13 @@ const Price = styled.p`
 `
 
 const Description = styled.div`
+    height: 140px;
     font-size: 24px;
     line-height: 30px;
+    overflow: scroll;
+    ::-webkit-scrollbar {
+    width: 0px;
+}
 `
 
 const ButtonCart = styled.button`
@@ -143,11 +143,9 @@ const ButtonCart = styled.button`
     border: none;
     outline: none;
     border-radius: 5px;
-
     color: white;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
-
     margin-bottom: 14px;
 `
