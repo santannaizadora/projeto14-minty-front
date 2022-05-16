@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-
 import TokenContext from "../../contexts/TokenContext";
 import SearchContext from "../../contexts/SearchContext";
 import toastConfig from "../../assets/toastify/toastConfig";
 
 export default function Game() {
+
     const { id } = useParams()
 
     const { token } = useContext(TokenContext);
@@ -27,7 +27,7 @@ export default function Game() {
         return `${price}`.replace(".", ",")
     }
     useEffect(() => {
-        axios.get(`http://localhost:5000/game/${id}`, config)
+        axios.get(`${process.env.REACT_APP_API_URL}game/${id}`, config)
             .then((response) => {
                 setGameInfo(response.data)
             })
@@ -38,7 +38,7 @@ export default function Game() {
     }, [refresh])
 
     function addCart() {
-        axios.post(`http://localhost:5000/cart/${id}`, null, config)
+        axios.post(`${process.env.REACT_APP_API_URL}cart/${id}`, null, config)
             .then((response) => {
                 console.log(response)
                 toast.success("Jogo adicionado com sucesso", toastConfig);
