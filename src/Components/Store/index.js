@@ -89,7 +89,7 @@ export default function Store() {
             const { title, price, thumbnail, _id } = game;
             return (
                 <Link to={`/game/${_id}`} key={_id}>
-                    <Game>
+                    <Game key={_id}>
                         <img src={thumbnail} alt={title} />
                         <h3>{title}</h3>
                         <p>R$ {price.toFixed(2).toString().replace(".", ",")}</p>

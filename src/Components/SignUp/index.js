@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { ThreeDots } from "react-loader-spinner";
 
+import TokenContext from '../../contexts/TokenContext';
 import toastConfig from '../../assets/toastify/toastConfig';
 
 export default function SignUp() {
@@ -14,7 +15,13 @@ export default function SignUp() {
         criteriaMode: "all"
     });
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { token } = useContext(TokenContext);
+    
+    useEffect(() => {
+        token!=='' && navigate('/store');
+    }, []);
+
     const [disabled, setDisabled] = useState(false)
 
     function sendRgister(data) {
