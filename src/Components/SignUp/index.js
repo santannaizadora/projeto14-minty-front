@@ -21,7 +21,7 @@ export default function SignUp() {
         setDisabled(true)
         const { password, confirmPassword } = data
         password === confirmPassword
-            ? axios.post("http://localhost:5000/signUp", data)
+            ? axios.post(`${process.env.REACT_APP_API_URL}signUp`, data)
                 .then((response) => {
                     console.log(response.data);
                     navigate("/");

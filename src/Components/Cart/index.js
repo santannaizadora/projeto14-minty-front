@@ -21,7 +21,7 @@ export default function Cart() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:5000/cart', config)
+        axios.get(`${process.env.REACT_APP_API_URL}cart`, config)
             .then((response) => {
                 setCart(response.data)
                 setIsLoading(false)
@@ -34,7 +34,7 @@ export default function Cart() {
 
 
     function deleteGame(id) {
-        axios.delete(`http://localhost:5000/cart/${id}`, config)
+        axios.delete(`${process.env.REACT_APP_API_URL}cart/${id}`, config)
             .then((response) => {
                 setRefresh(!refresh);
                 setIsLoading(true)

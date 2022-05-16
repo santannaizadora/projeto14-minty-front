@@ -20,7 +20,6 @@ export default function Store() {
     }
 
     useEffect(() => {
-        // 
         axios.get(`${process.env.REACT_APP_API_URL}store?page=${page}`, config)
             .then((response) => {
                 setGameInfo(response.data.games)

@@ -16,7 +16,7 @@ export default function User() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:5000/userGames', config)
+        axios.get(`${process.env.REACT_APP_API_URL}userGames`, config)
             .then((response) => {
                 setJogo(response.data)
                 setIsLoading(false)

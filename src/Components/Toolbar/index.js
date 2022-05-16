@@ -34,7 +34,7 @@ export default function Toolbar() {
     }
 
     function searchData() {
-        axios.get(`http://localhost:5000/search/${search}`, config)
+        axios.get(`${process.env.REACT_APP_API_URL}search/${search}`, config)
             .then((response) => {
                 navigate(`/game/${response.data}`);
                 setRefresh(!refresh);
