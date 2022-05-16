@@ -72,13 +72,10 @@ const Container = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: var(--background-color);
-
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     padding: 89px 14px 25px 14px;
-
     *{
         font-family: var(--main-font);
     }
@@ -99,12 +96,10 @@ const DivGame = styled.div`
         color: white;
         margin-bottom: 14px;
     }
-
     div{
         display: flex;
         flex-direction: column;
         align-items: center;
-
         hr{
             width: 100%;
             border-color: #808080;
@@ -112,20 +107,17 @@ const DivGame = styled.div`
             margin-bottom: 14px;
         }
     }
-
     img{
         width: 321px;
         height: 197px;
         margin-bottom: 14px;
         border-radius: 4px;
     }
-
     p{
         color: white;
         font-style: normal;
         font-weight: 400;   
     }
-
 `
 
 const Price = styled.p`
@@ -134,16 +126,13 @@ const Price = styled.p`
 `
 
 const Description = styled.div`
-
     height: 140px;
     font-size: 24px;
     line-height: 30px;
-
     overflow: scroll;
     ::-webkit-scrollbar {
     width: 0px;
 }
-
 `
 
 const ButtonCart = styled.button`
@@ -154,11 +143,9 @@ const ButtonCart = styled.button`
     border: none;
     outline: none;
     border-radius: 5px;
-
     color: white;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
-
     margin-bottom: 14px;
 `
