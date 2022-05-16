@@ -73,7 +73,7 @@ export default function Toolbar() {
             </DivSearch>
             <div>
                 <DivCart>
-                    <ion-icon name="storefront" onClick={() => navigate("/user")}></ion-icon>
+                    <ion-icon name="storefront" onClick={() => navigate("/store")}></ion-icon>
                     <ion-icon name="cart" onClick={() => navigate("/cart")}></ion-icon>
                     {badgeNumber <= 0
                         ? <></>
